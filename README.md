@@ -21,8 +21,8 @@ docker run -d --network $networkName -e POSTGRES_PASSWORD=$dbPassword --name $db
 # Create table and enable crypto extension
 @"
 CREATE EXTENSION pgcrypto;
-CREATE TABLE users(
-    username TEXT NOT NULL
+CREATE TABLE users (
+    username TEXT NOT NULL PRIMARY KEY
     ,password TEXT NOT NULL
     ,domain TEXT NOT NULL
 );
