@@ -18,11 +18,9 @@ RUN apt-get install -y dovecot-core
 RUN apt-get install -y dnsutils
 RUN apt-get install -y net-tools
 
-# HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 CMD printf "EHLO healthcheck\n" | nc 127.0.0.1 587 | grep -qE "^220.*ESMTP Postfix"
+RUN apt-get install -y dovecot-pgsql
 
-RUN echo 'example.lan #domain' > /etc/postfix/virtual_mailbox_domains
-RUN postmap /etc/postfix/virtual_mailbox_domains
-RUN echo 'user@example.lan:{plain}testpass' > /etc/dovecot/users
+# HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 CMD printf "EHLO healthcheck\n" | nc 127.0.0.1 587 | grep -qE "^220.*ESMTP Postfix"
 
 COPY config/supervisord/supervisord.conf /etc/supervisord.conf
 COPY config/rsyslog/rsyslog.conf /etc/rsyslog.conf
@@ -32,6 +30,8 @@ RUN cp -f /etc/services /var/spool/postfix/etc/services
 RUN cp -f /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
 
 COPY config/dovecot/* /etc/dovecot/conf.d/
+COPY start.sh /start.sh
 
 EXPOSE 25
-CMD exec supervisord -c /etc/supervisord.conf
+CMD [ "/bin/sh", "-c", "/start.sh" ]
+#CMD exec supervisord -c /etc/supervisord.conf
