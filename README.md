@@ -3,6 +3,8 @@
 
 ## Running the relay
 
+This code example is with powershell. Examples for running the psql queries with bash is below
+
 ```powershell
 $prefix = "pfrelay"
 # Should be fine to have a simple password, the db is not network reachable
