@@ -15,6 +15,7 @@ then
 
     sed -i "s/^smtpd_tls_cert_file=.*/smtpd_tls_cert_file=$TLS_CERT_PATH/" /etc/postfix/main.cf
     sed -i "s/^smtpd_tls_key_file=.*/smtpd_tls_cert_file=$TLS_KEY_PATH/" /etc/postfix/main.cf
+    sed -i "s/^smtpd_tls_security_level=.*/smtpd_tls_security_level=encrypt/" /etc/postfix/main.cf
 cat << EOF >> /etc/postfix/main.cf
 smtpd_use_tls=yes
 smtpd_tls_session_cache_database = btree:\${data_directory}/smtpd_scache

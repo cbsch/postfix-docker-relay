@@ -33,5 +33,6 @@ COPY config/dovecot/* /etc/dovecot/conf.d/
 COPY start.sh /start.sh
 
 EXPOSE 25
+EXPOSE 465
 CMD [ "/bin/sh", "-c", "/start.sh" ]
 #CMD exec supervisord -c /etc/supervisord.conf

@@ -37,7 +37,7 @@ INSERT INTO users (username, password, domain) VALUES (
 );
 "@ | docker exec -i --user postgres $dbContainer psql -d postgres -q
 
-docker run -d -p 25:25 -e DBHOST=$dbContainer -e DBNAME=postgres -e DBUSER=postgres -e DBPASS=$dbPassword --network $networkName --name $postfixContainer $postfixContainer
+docker run -d -p 25:25 -p 465:465 -e DBHOST=$dbContainer -e DBNAME=postgres -e DBUSER=postgres -e DBPASS=$dbPassword --network $networkName --name $postfixContainer $postfixContainer
 ```
 
 ### View postfix / dovecot logs
