@@ -31,6 +31,7 @@ RUN cp -f /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
 
 COPY config/dovecot/* /etc/dovecot/conf.d/
 COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
 EXPOSE 25
 EXPOSE 465

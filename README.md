@@ -13,8 +13,6 @@ $networkName = "$prefix-network"
 $dbContainer = "$prefix-db"
 $postfixContainer = "$prefix-postfix"
 
-docker build . -t $postfixContainer
-
 docker network create $networkName
 docker run -d --network $networkName -e POSTGRES_PASSWORD=$dbPassword --name $dbContainer postgres
 
@@ -26,7 +24,7 @@ CREATE TABLE users (
     ,password TEXT NOT NULL
     ,domain TEXT NOT NULL
 );
-"@ | docker exec -i --user postgres $dbContainer psql -d postgres -q
+"@ | docker exec -i --user postgres $dbContainer psql
 
 # Create a user with password
 @"
@@ -35,7 +33,9 @@ INSERT INTO users (username, password, domain) VALUES (
     crypt('password', gen_salt('bf', 8)),
     ''
 );
-"@ | docker exec -i --user postgres $dbContainer psql -d postgres -q
+"@ | docker exec -i --user postgres $dbContainer psql
+
+docker build . -t $postfixContainer
 
 docker run -d -p 25:25 -p 465:465 -e DBHOST=$dbContainer -e DBNAME=postgres -e DBUSER=postgres -e DBPASS=$dbPassword --network $networkName --name $postfixContainer $postfixContainer
 ```
