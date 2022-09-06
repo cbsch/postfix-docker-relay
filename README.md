@@ -14,7 +14,8 @@ $dbContainer = "$prefix-db"
 $postfixContainer = "$prefix-postfix"
 
 docker network create $networkName
-docker run -d --restart=always --network $networkName -e POSTGRES_PASSWORD=$dbPassword --name $dbContainer postgres
+mkdir -p /data/docker/pfrelay-db
+docker run -d -v /data/docker/pfrelay-db:/var/lib/postgresql/data --restart=always --network $networkName -e POSTGRES_PASSWORD=$dbPassword --name $dbContainer postgres
 
 # Create table and enable crypto extension
 @"
