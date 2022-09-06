@@ -54,7 +54,7 @@ The rsyslog stuff doesn't really work. Not removing it, may fix it later.
 queries with shell
 ```sh
 # Create table and enable crypto extension
-docker exec -i --user postgres postfix-postgres psql -d postgres -q <<-EOSQL
+docker exec -i --user postgres pfrelay-db psql -d postgres -q <<-EOSQL
 CREATE EXTENSION pgcrypto;
 CREATE TABLE users(
     username TEXT NOT NULL
@@ -64,7 +64,7 @@ CREATE TABLE users(
 EOSQL
 
 # Create a user with password
-docker exec -i --user postgres postfix-postgres psql -d postgres -q <<-EOSQL
+docker exec -i --user postgres pfrelay-db psql -d postgres -q <<-EOSQL
 INSERT INTO users (username, password, domain) VALUES (
     'test',
     crypt('password', gen_salt('bf', 8)),
